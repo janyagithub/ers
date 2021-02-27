@@ -58,6 +58,14 @@ public class MasterEventEntity {
 		this.eventName = eventName;
 	}
 
+	public MasterEventEntity(Long id, @NotBlank(message = "Name is mandatory") String eventName,
+			String eventCorrosalpic) {
+		super();
+		this.id = id;
+		this.eventName = eventName;
+		this.eventCorrosalpic = eventCorrosalpic;
+	}
+
 	public Long getId() {
 		return id;
 	}

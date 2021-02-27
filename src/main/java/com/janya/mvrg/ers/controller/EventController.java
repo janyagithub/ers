@@ -1,10 +1,10 @@
 package com.janya.mvrg.ers.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,11 +36,19 @@ public class EventController {
 		return resultEvent;
 	}
 
+//getLastEvents
 	@GetMapping("/latest-events/{records}")
 	@ResponseBody
 	public List<MasterEventEntity> upComingEvents(@PathVariable("records") int records) {
 
 		return masterEventRepository.getUpComingEvents(PageRequest.of(0, records)).getContent();
+	}
+
+	@GetMapping("/last-events/{records}")
+	@ResponseBody
+	public List<MasterEventEntity> lastEvents(@PathVariable("records") int records) {
+
+		return masterEventRepository.getLastEvents(PageRequest.of(0, records), new Date()).getContent();
 	}
 
 }
