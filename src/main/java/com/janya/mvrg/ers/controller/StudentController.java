@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,14 +14,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.janya.mvrg.ers.dao.StudentRegistrationRepository;
 import com.janya.mvrg.ers.dao.StudentRepository;
+import com.janya.mvrg.ers.dto.StudentRegistrationDto;
+import com.janya.mvrg.ers.enitity.MasterActivityEntity;
+import com.janya.mvrg.ers.enitity.MasterCollegeEntity;
+import com.janya.mvrg.ers.enitity.MasterEventEntity;
 import com.janya.mvrg.ers.enitity.Student;
+import com.janya.mvrg.ers.enitity.StudentRegistrationEntity;
 
 @Controller
-@RequestMapping("/students/")
+@RequestMapping("/students")
 public class StudentController {
 
 	private final StudentRepository studentRepository;
+
+	@Autowired
+	private StudentRegistrationRepository studentRegistrationRepository;
 
 	@Autowired
 	public StudentController(StudentRepository studentRepository) {
@@ -81,7 +91,32 @@ public class StudentController {
 		}
 
 		model.addAttribute("students", studentRepository.findAll());
-		
+
 		return "index";
+	}
+
+	@PostMapping("/registration") //Link 5
+	public String addStudentRegistration(@Valid StudentRegistrationDto studentRegistrationDto, BindingResult result,
+			Model model) {
+
+		if (result.hasErrors()) {
+			return "add-student";
+		}
+
+		StudentRegistrationEntity student = new StudentRegistrationEntity();
+		BeanUtils.copyProperties(studentRegistrationDto, student);
+		MasterActivityEntity activity = new MasterActivityEntity();
+		activity.setId(studentRegistrationDto.getMasterActivityEntityId());
+		student.setMasterActivityEntity(activity);
+		MasterEventEntity event = new MasterEventEntity();
+		event.setId(studentRegistrationDto.getMasterEventEntityId());
+		student.setMasterEventEntity(event);
+		MasterCollegeEntity college = new MasterCollegeEntity();
+		college.setId(studentRegistrationDto.getMasterCollegeEntityId());
+		student.setMasterCollegeEntity(college);
+
+		studentRegistrationRepository.save(student);
+
+		return "redirect:list";
 	}
 }

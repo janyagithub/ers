@@ -2,6 +2,8 @@ package com.janya.mvrg.ers.dto;
 
 public class EventActivityDto {
 
+	private Long eventActivityId;
+
 	public String activityName;
 
 	private String winner;
@@ -50,6 +52,14 @@ public class EventActivityDto {
 
 	public void setPic(String pic) {
 		this.pic = pic;
+	}
+
+	public Long getEventActivityId() {
+		return eventActivityId;
+	}
+
+	public void setEventActivityId(Long eventActivityId) {
+		this.eventActivityId = eventActivityId;
 	}
 
 }
