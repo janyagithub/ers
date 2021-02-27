@@ -47,6 +47,17 @@ public class MasterEventEntity {
 	@Column(name = "event_corrosal_pic")
 	private String eventCorrosalpic;
 
+	public MasterEventEntity() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public MasterEventEntity(Long id, @NotBlank(message = "Name is mandatory") String eventName) {
+		super();
+		this.id = id;
+		this.eventName = eventName;
+	}
+
 	public Long getId() {
 		return id;
 	}
