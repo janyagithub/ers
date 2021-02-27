@@ -39,7 +39,7 @@ public class MasterEventEntity {
 	private MasterCollegeEntity createdByMasterCollegeEntity;
 
 	@Column(name = "event_loc")
-	private Date eventLoc;
+	private String eventLoc;
 
 	@Column(name = "event_desc", length = 400)
 	private String eventDescription;
@@ -103,11 +103,11 @@ public class MasterEventEntity {
 		this.createdByMasterCollegeEntity = createdByMasterCollegeEntity;
 	}
 
-	public Date getEventLoc() {
+	public String getEventLoc() {
 		return eventLoc;
 	}
 
-	public void setEventLoc(Date eventLoc) {
+	public void setEventLoc(String eventLoc) {
 		this.eventLoc = eventLoc;
 	}
 

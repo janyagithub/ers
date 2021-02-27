@@ -32,6 +32,9 @@ public class EventActivityEntity {
 	@Column(name = "pic")
 	private String pic;
 
+	@Column(name = "details")
+	private String details;
+
 	public Long getId() {
 		return id;
 	}
@@ -78,6 +81,14 @@ public class EventActivityEntity {
 
 	public void setPic(String pic) {
 		this.pic = pic;
+	}
+
+	public String getDetails() {
+		return details;
+	}
+
+	public void setDetails(String details) {
+		this.details = details;
 	}
 
 }
