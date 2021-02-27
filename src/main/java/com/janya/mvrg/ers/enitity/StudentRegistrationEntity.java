@@ -28,11 +28,11 @@ public class StudentRegistrationEntity {
 
 	@OneToOne
 	@JoinColumn(name = "activity_id")
-	private MasterEventEntity masterEventEntity;
+	private MasterActivityEntity masterActivityEntity;
 
 	@OneToOne
 	@JoinColumn(name = "event_id")
-	private MasterActivityEntity masterActivityEntity;
+	private MasterEventEntity masterEventEntity;
 
 	@OneToOne
 	@JoinColumn(name = "clg_id")
