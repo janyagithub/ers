@@ -1,7 +1,9 @@
 package com.janya.mvrg.ers.controller;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -18,10 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.janya.mvrg.ers.dao.EventActivityRepository;
+import com.janya.mvrg.ers.dao.MasterCollegeRepository;
 import com.janya.mvrg.ers.dao.MasterEventRepository;
+import com.janya.mvrg.ers.dao.StudentRegistrationRepository;
 import com.janya.mvrg.ers.dto.ResultListDto;
 import com.janya.mvrg.ers.enitity.EventActivityEntity;
+import com.janya.mvrg.ers.enitity.MasterCollegeEntity;
 import com.janya.mvrg.ers.enitity.MasterEventEntity;
+import com.janya.mvrg.ers.enitity.StudentRegistrationEntity;
 import com.janya.mvrg.ers.service.EventActivityService;
 
 @Controller
@@ -36,8 +42,15 @@ public class EventController {
 
 	@Autowired
 	private MasterEventRepository masterEventRepository;
+	
+	@Autowired
+	private StudentRegistrationRepository studentRegistrationRepository;
 
 	// Link 7 link 2
+	@Autowired
+	private MasterCollegeRepository masterCollegeRepository;
+	
+	// Link 7
 	@GetMapping("/result/{eventId}")
 	@ResponseBody
 	public ResultListDto showSignUpForm(@PathVariable("eventId") Long eventId, Pageable pageable) {
@@ -74,4 +87,23 @@ public class EventController {
 		return "redirect:list";
 	}
 
+	@GetMapping("/fetchEvent/{id}")
+	public String fetchEvent(@PathVariable("id") long id, Model model) {
+		Optional<MasterEventEntity> event = masterEventRepository.findById(id);
+		if (event.isPresent())
+			model.addAttribute("event", event.get());
+		return "event-page";
+	}
+	
+	@GetMapping("/listCollegeDetail/{records}/{clg_id}")
+	@ResponseBody
+	public List<StudentRegistrationEntity> getCollegeStudentEventDetail(@PathVariable("records") int records,@PathVariable("clg_id") long clg_id){
+		return studentRegistrationRepository.listCollegeStudentRegDetail(PageRequest.of(0, records), clg_id).getContent();
+	}
+	
+	@GetMapping("/colleges")
+	@ResponseBody
+	public Collection<MasterCollegeEntity> listColleges() {
+		return masterCollegeRepository.findAll();
+	}
 }

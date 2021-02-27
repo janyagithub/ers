@@ -89,9 +89,7 @@ public class StudentController {
 
 			studentRepository.deleteById(stuObj.getId());
 		}
-
 		model.addAttribute("students", studentRepository.findAll());
-
 		return "index";
 	}
 
