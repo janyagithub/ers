@@ -17,6 +17,7 @@ public class EventController {
 	@Autowired
 	private EventActivityService eventActivityService;
 
+	//Link 7
 	@GetMapping("/result/{eventId}")
 	@ResponseBody
 	public ResultListDto showSignUpForm(@PathVariable("eventId") Long eventId) {
