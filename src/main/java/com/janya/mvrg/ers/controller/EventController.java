@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,17 +27,15 @@ public class EventController {
 	@Autowired
 	private MasterEventRepository masterEventRepository;
 
-	// Link 7
+	// Link 7 link 2
 	@GetMapping("/result/{eventId}")
 	@ResponseBody
-	public ResultListDto showSignUpForm(@PathVariable("eventId") Long eventId) {
+	public ResultListDto showSignUpForm(@PathVariable("eventId") Long eventId, Pageable pageable) {
 
-		ResultListDto resultEvent = eventActivityService.getResultEvent(eventId);
-		System.out.println("Size of the results " + resultEvent.getEventActivityDto().size());
-		return resultEvent;
+		return eventActivityService.getResultEvent(eventId, pageable);
 	}
 
-//getLastEvents
+	// Dash Board marquee
 	@GetMapping("/latest-events/{records}")
 	@ResponseBody
 	public List<MasterEventEntity> upComingEvents(@PathVariable("records") int records) {
@@ -44,11 +43,13 @@ public class EventController {
 		return masterEventRepository.getUpComingEvents(PageRequest.of(0, records)).getContent();
 	}
 
+	// Dash Board corrosal
 	@GetMapping("/last-events/{records}")
 	@ResponseBody
-	public List<MasterEventEntity> lastEvents(@PathVariable("records") int records) {
+	public List<MasterEventEntity> lastEvents(Pageable pageable) {
 
-		return masterEventRepository.getLastEvents(PageRequest.of(0, records), new Date()).getContent();
+		return masterEventRepository.getLastEvents(pageable, new Date()).getContent();
+
 	}
 
 }

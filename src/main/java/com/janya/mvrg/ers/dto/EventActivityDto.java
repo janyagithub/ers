@@ -10,6 +10,16 @@ public class EventActivityDto {
 
 	private String pic;
 
+	private String details;
+
+	public String getDetails() {
+		return details;
+	}
+
+	public void setDetails(String details) {
+		this.details = details;
+	}
+
 	public String getActivityName() {
 		return activityName;
 	}
