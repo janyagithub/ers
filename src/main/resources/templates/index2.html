@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Index2</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"
+	type="text/javascript"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		console.log("inside ready")
+		$(allInView);
+	})
+
+	function allInView() {
+
+		if (callDiv1($(".lates_evnt_div")))
+			$(".lates_evnt_div").css("backgroundColor", "red");
+		else
+			$(".lates_evnt_div").css("backgroundColor", "grey");
+	}
+
+	function callDiv1(elem) {
+
+		console.log("inside div loads");
+
+		$.ajax({
+			url : "json/latest-events/1",
+			type : "GET",
+			/* contentType: 'text/plain', */
+			success : function(data) {
+				console.log(data);
+				$('#animationImage').hide();
+				$("#lates_evnt_div").values(data);
+			}
+		});
+	}
+</script>
+</head>
+
+<body>
+	<p>Hello</p>
+
+	<div id="lates_evnt_div" th:each="event : ${data}">
+
+		<div class="row page-row-evaluation">
+			<span th:text="${event.eventName}"></span>
+		</div>
+
+	</div>
+</body>
+</html>
+
+
+
+
+

@@ -15,8 +15,8 @@ import com.janya.mvrg.ers.enitity.MasterEventEntity;
 public interface MasterEventRepository extends JpaRepository<MasterEventEntity, Long> {
 
 	@Query("SELECT new com.janya.mvrg.ers.enitity.MasterEventEntity(mee.id, mee.eventName) "//
-			+ "FROM MasterEventEntity mee " + "ORDER BY mee.startDate DESC") //
-	Page<MasterEventEntity> getUpComingEvents(Pageable pageable);
+			+ "FROM MasterEventEntity mee WHERE mee.startDate > :today " + "ORDER BY mee.startDate DESC") //
+	Page<MasterEventEntity> getUpComingEvents(Pageable pageable, @Param("today") Date date);
 
 	@Query("SELECT new com.janya.mvrg.ers.enitity.MasterEventEntity(mee.id, mee.eventName, mee.eventCorrosalpic) "//
 			+ "FROM MasterEventEntity mee " + "WHERE mee.endDate < :today") //

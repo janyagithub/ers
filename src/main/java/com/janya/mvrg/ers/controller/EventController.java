@@ -10,6 +10,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,14 +44,39 @@ public class EventController {
 
 	@Autowired
 	private MasterEventRepository masterEventRepository;
-	
+
 	@Autowired
 	private StudentRegistrationRepository studentRegistrationRepository;
 
 	// Link 7 link 2
 	@Autowired
 	private MasterCollegeRepository masterCollegeRepository;
-	
+
+	@GetMapping("/index2")
+	public String upComingEvents() {
+
+		return "index2";
+	}
+
+	@GetMapping("/dash-board")
+	public String dashBoard(Model model) {
+
+		List<MasterEventEntity> upcomingEvents = masterEventRepository
+				.getUpComingEvents(PageRequest.of(0, 3), new Date()).getContent();
+
+		upcomingEvents.forEach(one -> {
+			one.setEventName(one.getEventName().replace("<", "\'"));
+		});
+
+		List<MasterEventEntity> latestEvents = masterEventRepository.getLastEvents(PageRequest.of(0, 5), new Date())
+				.getContent();
+
+		model.addAttribute("latestEvents", latestEvents);
+		model.addAttribute("upcomingEvents", upcomingEvents);
+
+		return "dash-board";
+	}
+
 	// Link 7
 	@GetMapping("/result/{eventId}")
 	@ResponseBody
@@ -59,11 +86,23 @@ public class EventController {
 	}
 
 	// Dash Board marquee
-	@GetMapping("/latest-events/{records}")
+	@GetMapping(value = "/json/latest-events/{records}"/* , produces = { MimeTypeUtils.TEXT_PLAIN_VALUE } */)
 	@ResponseBody
-	public List<MasterEventEntity> upComingEvents(@PathVariable("records") int records) {
+	public ResponseEntity<List<MasterEventEntity>> upComingEvents(@PathVariable("records") int records) {
 
-		return masterEventRepository.getUpComingEvents(PageRequest.of(0, records)).getContent();
+		return new ResponseEntity<>(
+				masterEventRepository.getUpComingEvents(PageRequest.of(0, records), new Date()).getContent(),
+				HttpStatus.OK);
+	}
+
+	@GetMapping("/latest-events/{records}")
+	public Model upComingEvents(@PathVariable("records") int records, Model model) {
+
+		List<MasterEventEntity> content = masterEventRepository
+				.getUpComingEvents(PageRequest.of(0, records), new Date()).getContent();
+		model.addAttribute("latestEvs", content);
+
+		return model;
 	}
 
 	// Dash Board corrosal
@@ -94,13 +133,15 @@ public class EventController {
 			model.addAttribute("event", event.get());
 		return "event-page";
 	}
-	
+
 	@GetMapping("/listCollegeDetail/{records}/{clg_id}")
 	@ResponseBody
-	public List<StudentRegistrationEntity> getCollegeStudentEventDetail(@PathVariable("records") int records,@PathVariable("clg_id") long clg_id){
-		return studentRegistrationRepository.listCollegeStudentRegDetail(PageRequest.of(0, records), clg_id).getContent();
+	public List<StudentRegistrationEntity> getCollegeStudentEventDetail(@PathVariable("records") int records,
+			@PathVariable("clg_id") long clg_id) {
+		return studentRegistrationRepository.listCollegeStudentRegDetail(PageRequest.of(0, records), clg_id)
+				.getContent();
 	}
-	
+
 	@GetMapping("/colleges")
 	@ResponseBody
 	public Collection<MasterCollegeEntity> listColleges() {
