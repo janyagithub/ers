@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.janya.mvrg.ers.dao.EventActivityRepository;
 import com.janya.mvrg.ers.dao.MasterCollegeRepository;
@@ -104,6 +105,7 @@ public class EventController {
 
 		return model;
 	}
+
 
 	// Dash Board corrosal
 	@GetMapping("/last-events/{records}")

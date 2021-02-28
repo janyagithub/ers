@@ -1,0 +1,53 @@
+#homePageDiv{
+	background-color: white;
+	background-image: url("Images/Backgruond/3.png");
+	background-repeat: no-repeat;
+	background-origin: content-box; 
+	background-position: 0px 0px;
+	background-size: 1400px 700px;
+}
+
+#forFixed{
+    position: fixed;
+    /*top: 0px;
+    height: 200px;
+    width: 10000%;*/
+    
+}
+#toppestDiv2{
+	padding-top: 10px;
+}
+.btn {
+	margin-top: -3px;
+    padding-top: 2px;
+    border: 0 none;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    height: 25px;
+    background-color: #e2d134;
+}
+#eventTopDiv{
+	/*margin: 10px 10px 10px 10px*/
+	padding-left: 50px;
+	padding-right: 50px;
+}
+#eventsDisplyBody{
+	background-color: white;
+}
+.fa{
+	color: red;
+}
+.flex-parent {
+  display: flex;
+}
+
+.jc-center {
+  justify-content: center;
+}
+
+button.margin-right {
+  margin-right: 20px;
+  height: 50px;
+  width:120px;
+}
